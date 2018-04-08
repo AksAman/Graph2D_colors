@@ -75,11 +75,11 @@ public class Grapher : MonoBehaviour {
 		int currentValue = funcDropDown.value;
 		switch (currentValue) {
 		case 0:
-			return Mathf.Sin (input + speedOfGraph*Time.time);
+			return Mathf.Sin (Mathf.PI *input + speedOfGraph*Time.time);
 		case 1:
-			return Mathf.Cos (input + speedOfGraph*Time.time);
+			return Mathf.Cos (Mathf.PI *input + speedOfGraph*Time.time);
 		case 2:
-			return Mathf.Tan (input + speedOfGraph*Time.time);
+			return Mathf.Tan (Mathf.PI *input + speedOfGraph*Time.time);
 		case 3:
 			return input;
 		case 4:
