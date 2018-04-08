@@ -38,9 +38,10 @@ public class Grapher : MonoBehaviour {
 	public float Range;
 	void Awake()
 	{
+		funcDropDown.value = 5;
 		parentOfCubes = GameObject.Find ("ParentOfCubes");
-		Range = 20f;
-		cam.orthographicSize = Range / 2;
+		Range = 2f;
+		cam.orthographicSize = Range / 2 + 0.1f *Range;
 		funcList = new List<String> (Enum.GetNames (typeof(Functions)));
 		funcDropDown.AddOptions (funcList);
 
@@ -70,15 +71,15 @@ public class Grapher : MonoBehaviour {
 
 
 	float function(float input){
-		input = input + speedOfGraph*Time.time;
+
 		int currentValue = funcDropDown.value;
 		switch (currentValue) {
 		case 0:
-			return Mathf.Sin (input);
+			return Mathf.Sin (input + speedOfGraph*Time.time);
 		case 1:
-			return Mathf.Cos (input);
+			return Mathf.Cos (input + speedOfGraph*Time.time);
 		case 2:
-			return Mathf.Tan (input);
+			return Mathf.Tan (input + speedOfGraph*Time.time);
 		case 3:
 			return input;
 		case 4:
