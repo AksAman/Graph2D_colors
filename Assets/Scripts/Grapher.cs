@@ -9,8 +9,11 @@ public class Grapher : MonoBehaviour {
 
 	public GameObject cube;
 
+	bool isAnimated;
+	public Toggle animToggle;
 
-	int max = 200;
+
+	int max = 100;
 	int speedOfGraph = 4;
 	GameObject[] cubes;
 	GameObject go;
@@ -36,9 +39,19 @@ public class Grapher : MonoBehaviour {
 	public Camera cam;
 	//
 	public float Range;
+
 	void Awake()
 	{
-		funcDropDown.value = 5;
+//		animToggle.onValueChanged.AddListener(delegate {
+//			ToggleValueChanged(animToggle);
+//		});
+
+		funcDropDown.onValueChanged.AddListener (delegate {
+			FuncChanged ();
+		});
+
+//		funcDropDown.value = 5;
+//		funcDropDown.onValueChanged
 		parentOfCubes = GameObject.Find ("ParentOfCubes");
 		Range = 2f;
 		cam.orthographicSize = Range / 2 + 0.1f *Range;
@@ -54,18 +67,28 @@ public class Grapher : MonoBehaviour {
 		Vector3 currentScale = Vector3.one * step;
 		for (int i = 0; i < max; i++) {
 			currentPos.x = (i + 0.5f) * step - Range/2;
-			go = Instantiate (cube, currentPos, Quaternion.identity);
+			currentPos.y = function (currentPos.x);
+			go = Instantiate (cube, currentPos, Quaternion.identity); 
 			go.transform.localScale = currentScale;
 			go.transform.SetParent (parentOfCubes.transform);
 			cubes [i] = go;
 		}
 	}
 
+
 	void Update(){
-		for (int i = 0; i < max; i++) {
-			Vector3 point = cubes [i].transform.position;
-			point.y = function (point.x);
-			cubes [i].transform.position = point;
+		isAnimated = animToggle.isOn;
+		if(isAnimated)
+		{
+			speedOfGraph = 4;
+			for (int i = 0; i < max; i++) {
+				Vector3 point = cubes [i].transform.position;
+				point.y = function (point.x);
+				cubes [i].transform.position = point;
+			}
+		}
+		else{
+			speedOfGraph = 0;
 		}
 	}
 
@@ -89,5 +112,26 @@ public class Grapher : MonoBehaviour {
 		default:
 			return 0.0f;
 		}
+	}
+
+
+//	public void ToggleValueChanged(Toggle change)
+//	{
+//		for (int i = 0; i < max; i++) {
+//			Vector3 point = cubes [i].transform.position;
+//			point.y = function (point.x);
+//			cubes [i].transform.position = point;
+//		}
+//		Debug.Log (" Toggle Changed");
+//	}
+
+	public void FuncChanged()
+	{
+		for (int i = 0; i < max; i++) {
+			Vector3 point = cubes [i].transform.position;
+			point.y = function (point.x);
+			cubes [i].transform.position = point;
+		}
+//		Debug.Log ("Func Changed");
 	}
 }
